@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Encuesta</title>
+</head>
+<body>
+<h1>Detalles de la Encuesta</h1>
+
+<p><strong>Nombre:</strong> <span th:text="${encuesta.nombre}"></span></p>
+<p><strong>Apellidos:</strong> <span th:text="${encuesta.apellidos}"></span></p>
+<p><strong>Email:</strong> <span th:text="${encuesta.email}"></span></p>
+<p><strong>Edad:</strong> <span th:text="${encuesta.edad}"></span></p>
+<p><strong>Teléfono:</strong> <span th:text="${encuesta.telefono}"></span></p>
+<p><strong>Fecha de Inicio de Estancia:</strong> <span th:text="${encuesta.fechaInicioEstancia}"></span></p>
+<p><strong>Motivo de la Visita:</strong> <span th:text="${encuesta.motivoVisita}"></span></p>
+<p><strong>Servicios Utilizados:</strong> <span th:text="${encuesta.serviciosUtilizados}"></span></p>
+<p><strong>Nivel de Satisfacción General:</strong> <span th:text="${encuesta.nivelSatisfaccion}"></span></p>
+<p><strong>Comentarios:</strong> <span th:text="${encuesta.comentarios}"></span></p>
+
+<a href="/encuestas/listar">Volver al Listado</a>
+</body>
+</html>
