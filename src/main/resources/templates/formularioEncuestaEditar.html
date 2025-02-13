@@ -101,7 +101,7 @@
 
   <div>
     <label for="fechaInicioEstancia">Fecha de Inicio de Estancia:</label>
-    <input type="date" id="fechaInicioEstancia" th:field="*{fechaInicioEstancia}" value="${fechaInicioEstancia}" />
+    <input type="date" id="fechaInicioEstancia" th:field="*{fechaInicioEstancia}" th:value="${#temporals.format(encuesta.fechaInicioEstancia, 'yyyy-MM-dd')}" />
     <span th:if="${#fields.hasErrors('fechaInicioEstancia')}" th:errors="*{fechaInicioEstancia}"></span>
   </div>
 

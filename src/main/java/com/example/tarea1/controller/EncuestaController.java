@@ -33,7 +33,7 @@ public class EncuestaController {
 
         // Si se selecciona un filtro de satisfacción, filtrar las encuestas
         if (satisfaccion != null && !satisfaccion.isEmpty()) {
-            encuestas = encuestaRepository.findByNivelSatisfaccion(satisfaccion); // Asumiendo que tienes un método en tu repositorio para filtrar por satisfacción
+            encuestas = encuestaRepository.findByNivelSatisfaccion(satisfaccion);
         } else {
             encuestas = encuestaRepository.findAll();
         }
@@ -54,7 +54,6 @@ public class EncuestaController {
         model.addAttribute("filtroSatisfaccion", satisfaccion);  // Para mantener el valor seleccionado en el filtro
         return "listarEncuestas";
     }
-
 
     private double calcularPromedioEdad(List<Encuesta> encuestas) {
         return encuestas.stream()

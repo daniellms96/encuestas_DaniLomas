@@ -2,6 +2,8 @@ package com.example.tarea1.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 
 @Entity
@@ -30,6 +32,7 @@ public class Encuesta {
     private String telefono;
 
     @PastOrPresent(message = "La fecha de inicio de la estancia no puede ser futura.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaInicioEstancia;
 
     @NotBlank(message = "El motivo de la visita es obligatorio.")
