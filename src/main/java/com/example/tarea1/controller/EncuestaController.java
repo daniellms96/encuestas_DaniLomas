@@ -140,15 +140,19 @@ public class EncuestaController {
         return "redirect:/encuestas/listar";
     }
 
-    @PostMapping("/encuestas/eliminar/{id}")
+    @GetMapping("/encuestas/eliminar/{id}")
     public String eliminarEncuesta(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Optional<Encuesta> encuestaOpt = encuestaRepository.findById(id);
+
         if (encuestaOpt.isPresent()) {
-            encuestaRepository.deleteById(id);
-            redirectAttributes.addFlashAttribute("mensaje", "Encuesta eliminada.");
+            Encuesta encuesta = encuestaOpt.get();
+            encuestaRepository.delete(encuesta);  // Eliminar la encuesta
+            redirectAttributes.addFlashAttribute("mensaje", "Encuesta eliminada con éxito.");
         } else {
             redirectAttributes.addFlashAttribute("error", "Encuesta no encontrada.");
         }
-        return "redirect:/encuestas/listar";
+
+        return "redirect:/encuestas/listar";  // Redirige a la lista de encuestas
     }
+
 }
