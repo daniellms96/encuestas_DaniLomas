@@ -28,8 +28,16 @@ public class EncuestaController {
     }
 
     @GetMapping("/encuestas/listar")
-    public String listarEncuestas(Model model) {
-        List<Encuesta> encuestas = encuestaRepository.findAll();
+    public String listarEncuestas(@RequestParam(value = "satisfaccion", required = false) String satisfaccion, Model model) {
+        List<Encuesta> encuestas;
+
+        // Si se selecciona un filtro de satisfacción, filtrar las encuestas
+        if (satisfaccion != null && !satisfaccion.isEmpty()) {
+            encuestas = encuestaRepository.findByNivelSatisfaccion(satisfaccion); // Asumiendo que tienes un método en tu repositorio para filtrar por satisfacción
+        } else {
+            encuestas = encuestaRepository.findAll();
+        }
+
         if (encuestas == null) {
             encuestas = new ArrayList<>();  // Evitar pasar null
         }
@@ -43,8 +51,10 @@ public class EncuestaController {
         model.addAttribute("porcentajeSatisfechos", porcentajeSatisfechos);
 
         model.addAttribute("encuestas", encuestas);
+        model.addAttribute("filtroSatisfaccion", satisfaccion);  // Para mantener el valor seleccionado en el filtro
         return "listarEncuestas";
     }
+
 
     private double calcularPromedioEdad(List<Encuesta> encuestas) {
         return encuestas.stream()
@@ -97,12 +107,23 @@ public class EncuestaController {
     public String editarEncuesta(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         Optional<Encuesta> encuestaOpt = encuestaRepository.findById(id);
         if (encuestaOpt.isPresent()) {
-            model.addAttribute("encuesta", encuestaOpt.get());
+            Encuesta encuesta = encuestaOpt.get();
+
+            // Verificar que la fecha no sea nula y pasarla como un String en formato "yyyy-MM-dd"
+            if (encuesta.getFechaInicioEstancia() != null) {
+                model.addAttribute("fechaInicioEstancia", encuesta.getFechaInicioEstancia().toString()); // Formato adecuado para el input date
+            }
+
+            // Pasar el objeto encuesta al modelo para que Thymeleaf lo utilice en el formulario
+            model.addAttribute("encuesta", encuesta);
+
             return "formularioEncuestaEditar";
         }
+
         redirectAttributes.addFlashAttribute("error", "Encuesta no encontrada.");
         return "redirect:/encuestas/listar";
     }
+
 
     @PostMapping("/encuestas/editar/{id}")
     public String procesarEdicionEncuesta(@PathVariable Long id, @Valid @ModelAttribute Encuesta encuesta, BindingResult bindingResult, RedirectAttributes redirectAttributes) {

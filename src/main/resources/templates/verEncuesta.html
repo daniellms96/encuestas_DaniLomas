@@ -4,21 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles de la Encuesta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .detail {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 500px;
+        }
+        .detail strong {
+            width: 250px; /* Asegura que todas las etiquetas sean iguales */
+            text-align: left;
+            white-space: nowrap; /* Evita los saltos de línea */
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
-<h1>Detalles de la Encuesta</h1>
+<div class="container">
+    <h1>Detalles de la Encuesta</h1>
 
-<p><strong>Nombre:</strong> <span th:text="${encuesta.nombre}"></span></p>
-<p><strong>Apellidos:</strong> <span th:text="${encuesta.apellidos}"></span></p>
-<p><strong>Email:</strong> <span th:text="${encuesta.email}"></span></p>
-<p><strong>Edad:</strong> <span th:text="${encuesta.edad}"></span></p>
-<p><strong>Teléfono:</strong> <span th:text="${encuesta.telefono}"></span></p>
-<p><strong>Fecha de Inicio de Estancia:</strong> <span th:text="${encuesta.fechaInicioEstancia}"></span></p>
-<p><strong>Motivo de la Visita:</strong> <span th:text="${encuesta.motivoVisita}"></span></p>
-<p><strong>Servicios Utilizados:</strong> <span th:text="${encuesta.serviciosUtilizados}"></span></p>
-<p><strong>Nivel de Satisfacción General:</strong> <span th:text="${encuesta.nivelSatisfaccion}"></span></p>
-<p><strong>Comentarios:</strong> <span th:text="${encuesta.comentarios}"></span></p>
+    <div class="details">
+        <div class="detail"><strong>Nombre:</strong> <span th:text="${encuesta.nombre}"></span></div>
+        <div class="detail"><strong>Apellidos:</strong> <span th:text="${encuesta.apellidos}"></span></div>
+        <div class="detail"><strong>Email:</strong> <span th:text="${encuesta.email}"></span></div>
+        <div class="detail"><strong>Edad:</strong> <span th:text="${encuesta.edad}"></span></div>
+        <div class="detail"><strong>Teléfono:</strong> <span th:text="${encuesta.telefono}"></span></div>
+        <div class="detail"><strong>Fecha de Inicio de Estancia:</strong> <span th:text="${encuesta.fechaInicioEstancia}"></span></div>
+        <div class="detail"><strong>Motivo de la Visita:</strong> <span th:text="${encuesta.motivoVisita}"></span></div>
+        <div class="detail"><strong>Servicios Utilizados:</strong> <span th:text="${encuesta.serviciosUtilizados}"></span></div>
+        <div class="detail"><strong>Nivel de Satisfacción General:</strong> <span th:text="${encuesta.nivelSatisfaccion}"></span></div>
+        <div class="detail"><strong>Comentarios:</strong> <span th:text="${encuesta.comentarios}"></span></div>
+    </div>
 
-<a href="/encuestas/listar">Volver al Listado</a>
+    <a href="/encuestas/listar" class="btn">Volver al Listado</a>
+</div>
 </body>
 </html>

@@ -4,65 +4,199 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Encuestas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+            align-self: center;
+        }
+
+        select {
+            padding: 5px;
+            font-size: 14px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td a {
+            margin-right: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .stats div {
+            width: 48%;
+            text-align: center; /* Centrado del contenido dentro de cada sección */
+        }
+
+        .stats h2 {
+            text-align: center;
+        }
+
+        .stats ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        .stats li {
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .clear-button {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .center-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1>Listado de Encuestas</h1>
 
-<form action="/encuestas/listar" method="get">
-    <label for="satisfaccion">Filtrar por Satisfacción:</label>
-    <select name="satisfaccion" id="satisfaccion">
-        <option value="">Seleccione...</option>
-        <option value="Muy satisfecho">Muy satisfecho</option>
-        <option value="Satisfecho">Satisfecho</option>
-        <option value="Neutral">Neutral</option>
-        <option value="Insatisfecho">Insatisfecho</option>
-        <option value="Muy insatisfecho">Muy insatisfecho</option>
-    </select>
-    <button type="submit">Filtrar</button>
-</form>
-<br>
-<!-- Botón para redirigir a /encuestas/crear -->
-<a href="/encuestas/crear">
-    <button type="button">Crear Encuesta</button>
-</a>
-<br>
-<table>
-    <thead>
-    <tr>
-        <th>Nombre</th>
-        <th>Fecha de Inicio</th>
-        <th>Satisfacción</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="encuesta : ${encuestas}">
-        <td th:text="${encuesta.nombre}"></td>
-        <td th:text="${encuesta.fechaInicioEstancia}"></td>
-        <td th:text="${encuesta.nivelSatisfaccion}"></td>
-        <td>
-            <a th:href="@{/encuestas/ver/{id}(id=${encuesta.id})}">Ver</a>
-            <a th:href="@{/encuestas/editar/{id}(id=${encuesta.id})}">Editar</a>
-            <form action="/encuestas/eliminar/{id}" method="post" th:action="@{/encuestas/eliminar/{id}(id=${encuesta.id})}" style="display:inline;">
-                <button type="submit">Eliminar</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <h1>Listado de Encuestas</h1>
 
-<div>
-    <h2>Estadísticas</h2>
-    <p>Total de encuestas: <span th:text="${#lists.size(encuestas)}"></span></p>
-    <p>Promedio de edad: <span th:text="${promedioEdad}"></span></p>
-    <p>Distribución de Satisfacción:</p>
-    <ul>
-        <li>Muy satisfecho: <span th:text="${porcentajeSatisfechos['Muy satisfecho']}"></span>%</li>
-        <li>Satisfecho: <span th:text="${porcentajeSatisfechos['Satisfecho']}"></span>%</li>
-        <li>Neutral: <span th:text="${porcentajeSatisfechos['Neutral']}"></span>%</li>
-        <li>Insatisfecho: <span th:text="${porcentajeSatisfechos['Insatisfecho']}"></span>%</li>
-        <li>Muy insatisfecho: <span th:text="${porcentajeSatisfechos['Muy insatisfecho']}"></span>%</li>
-    </ul>
+    <form action="/encuestas/listar" method="get">
+        <label for="satisfaccion">Filtrar por Satisfacción:</label>
+        <select name="satisfaccion" id="satisfaccion">
+            <option value="" th:selected="${param.satisfaccion == null}">Seleccione...</option>
+            <option value="Muy satisfecho" th:selected="${param.satisfaccion == 'Muy satisfecho'}">Muy satisfecho</option>
+            <option value="Satisfecho" th:selected="${param.satisfaccion == 'Satisfecho'}">Satisfecho</option>
+            <option value="Neutral" th:selected="${param.satisfaccion == 'Neutral'}">Neutral</option>
+            <option value="Insatisfecho" th:selected="${param.satisfaccion == 'Insatisfecho'}">Insatisfecho</option>
+            <option value="Muy insatisfecho" th:selected="${param.satisfaccion == 'Muy insatisfecho'}">Muy insatisfecho</option>
+        </select>
+        <button type="submit">Filtrar</button>
+        <button type="button" onclick="window.location.href='/encuestas/listar'">Limpiar Filtro</button>
+    </form>
+
+    <br>
+
+    <div class="center-button">
+        <a href="/encuestas/crear">
+            <button type="button">Crear Encuesta</button>
+        </a>
+    </div>
+
+    <br>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Fecha de Inicio</th>
+            <th>Satisfacción</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="encuesta : ${encuestas}">
+            <td th:text="${encuesta.nombre}"></td>
+            <td th:text="${encuesta.fechaInicioEstancia}"></td>
+            <td th:text="${encuesta.nivelSatisfaccion}"></td>
+            <td>
+                <a th:href="@{/encuestas/ver/{id}(id=${encuesta.id})}">Ver</a>
+                <a th:href="@{/encuestas/editar/{id}(id=${encuesta.id})}">Editar</a>
+                <form action="/encuestas/eliminar/{id}" method="post" th:action="@{/encuestas/eliminar/{id}(id=${encuesta.id})}" style="display:inline;">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="stats">
+        <div>
+            <h2>Estadísticas</h2>
+            <p>Total de encuestas: <span th:text="${#lists.size(encuestas)}"></span></p>
+            <p>Promedio de edad: <span th:text="${promedioEdad}"></span></p>
+        </div>
+        <div>
+            <h2>Distribución de Satisfacción</h2>
+            <ul>
+                <li>Muy satisfecho: <span th:text="${porcentajeSatisfechos['Muy satisfecho']}"></span>%</li>
+                <li>Satisfecho: <span th:text="${porcentajeSatisfechos['Satisfecho']}"></span>%</li>
+                <li>Neutral: <span th:text="${porcentajeSatisfechos['Neutral']}"></span>%</li>
+                <li>Insatisfecho: <span th:text="${porcentajeSatisfechos['Insatisfecho']}"></span>%</li>
+                <li>Muy insatisfecho: <span th:text="${porcentajeSatisfechos['Muy insatisfecho']}"></span>%</li>
+            </ul>
+        </div>
+    </div>
 </div>
+
 </body>
 </html>

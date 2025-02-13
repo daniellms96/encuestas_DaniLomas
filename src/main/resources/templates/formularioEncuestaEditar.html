@@ -101,7 +101,7 @@
 
   <div>
     <label for="fechaInicioEstancia">Fecha de Inicio de Estancia:</label>
-    <input type="date" id="fechaInicioEstancia" th:field="*{fechaInicioEstancia}" />
+    <input type="date" id="fechaInicioEstancia" th:field="*{fechaInicioEstancia}" value="${fechaInicioEstancia}" />
     <span th:if="${#fields.hasErrors('fechaInicioEstancia')}" th:errors="*{fechaInicioEstancia}"></span>
   </div>
 
