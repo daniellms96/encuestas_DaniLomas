@@ -140,7 +140,7 @@ public class EncuestaController {
         return "redirect:/encuestas/listar";
     }
 
-    @GetMapping("/encuestas/eliminar/{id}")
+    @PostMapping("/encuestas/eliminar/{id}")
     public String eliminarEncuesta(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Optional<Encuesta> encuestaOpt = encuestaRepository.findById(id);
 
@@ -154,5 +154,6 @@ public class EncuestaController {
 
         return "redirect:/encuestas/listar";  // Redirige a la lista de encuestas
     }
+
 
 }
